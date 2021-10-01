@@ -5,6 +5,11 @@ class Solution {
             map<int, int> _map;
             vector<int> arr;
 
+            for (int i = 0; i < nums.size(); i++)
+            {
+                _map[nums[i]] = i;
+            }
+
             int result;
 
             for (int i = 0; i < nums.size(); i++)
