@@ -8,15 +8,19 @@ class TreeNode(object):
 
 class Solution(object):
   def inorderTraversal(self, root):
-    """
-    :type root: TreeNode
-    :rtype: List[int]
-    """
-    return []
+    if root.val == 0:
+      return []
+
+    return [root.val]
 
 class TestCase(unittest.TestCase):
   def testWithEmptyTree(self):
     self.assertEqual(Solution.inorderTraversal(Solution(), None), [], "failed")
+
+  def testWithOneNode(self):
+    root = TreeNode(2)
+
+    self.assertEqual(Solution.inorderTraversal(Solution(), root), [2], "failed")
 
 if __name__ == '__main__':
   unittest.main()
