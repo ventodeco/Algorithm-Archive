@@ -76,5 +76,16 @@ class TestCase(unittest.TestCase):
 
     self.assertEqual(Solution.inorderTraversal(Solution(), root), [8, 4, 10, 5], "failed")
 
+  def testHaveLeftRightChildInRightLeaf(self):
+    leftChildLeftLeaf = TreeNode(10)
+    rightChildLeftLeaf = TreeNode(9)
+
+    leftLeaf = TreeNode(8)
+    rightLeaf = TreeNode(5, leftChildLeftLeaf, rightChildLeftLeaf)
+
+    root = TreeNode(4, leftLeaf, rightLeaf)
+
+    self.assertEqual(Solution.inorderTraversal(Solution(), root), [8, 4, 10, 5, 9], "failed")
+
 if __name__ == '__main__':
   unittest.main()
