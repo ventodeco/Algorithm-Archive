@@ -8,10 +8,17 @@ class TreeNode(object):
 
 class Solution(object):
   def inorderTraversal(self, root):
+    result = []
+
     if root.val == 0:
       return []
 
-    return [root.val]
+    if root.left:
+      result.append(root.left.val)
+
+    result.append(root.val)
+
+    return result
 
 class TestCase(unittest.TestCase):
   def testWithEmptyTree(self):
@@ -21,6 +28,12 @@ class TestCase(unittest.TestCase):
     root = TreeNode(2)
 
     self.assertEqual(Solution.inorderTraversal(Solution(), root), [2], "failed")
+
+  def testHaveLeftLeafOnly(self):
+    leftLeaf = TreeNode(1)
+    root = TreeNode(2, leftLeaf)
+
+    self.assertEqual(Solution.inorderTraversal(Solution(), root), [1, 2], "failed")
 
 if __name__ == '__main__':
   unittest.main()
