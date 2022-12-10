@@ -18,6 +18,9 @@ class Solution(object):
 
     result.append(root.val)
 
+    if root.right:
+      result.append(root.right.val)
+
     return result
 
 class TestCase(unittest.TestCase):
@@ -34,6 +37,13 @@ class TestCase(unittest.TestCase):
     root = TreeNode(2, leftLeaf)
 
     self.assertEqual(Solution.inorderTraversal(Solution(), root), [1, 2], "failed")
+
+  def testHaveLeftAndRightLeaf(self):
+    leftLeaf = TreeNode(10)
+    rightLeaf = TreeNode(1)
+    root = TreeNode(2, leftLeaf, rightLeaf)
+
+    self.assertEqual(Solution.inorderTraversal(Solution(), root), [10, 2, 1], "failed")
 
 if __name__ == '__main__':
   unittest.main()
