@@ -125,4 +125,12 @@ public class EvaluateTreeTest {
 
     assertEquals(true, EvaluateTree.evaluateTree(tree));
   }
+
+  @Test
+  @DisplayName("evaluation tree has child in left (OR) value should return false")
+  void testEvaluationTree_hasChildInLeftWithOR_returnFalse() {
+    TreeNode tree = TreeNode.newTree(EvaluateTree.OR, EvaluateTree.OR, EvaluateTree.FALSE, EvaluateTree.FALSE, EvaluateTree.FALSE);
+
+    assertEquals(false, EvaluateTree.evaluateTree(tree));
+  }
 }
