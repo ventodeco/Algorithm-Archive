@@ -173,4 +173,12 @@ public class EvaluateTreeTest {
 
     assertEquals(true, EvaluateTree.evaluateTree(tree));
   }
+
+  @Test
+  @DisplayName("evaluation tree has child in right (AND) value should return false")
+  void testEvaluationTree_hasChildInRightWithAND_returnFalse() {
+    TreeNode tree = TreeNode.newTree(EvaluateTree.AND, EvaluateTree.FALSE, EvaluateTree.AND, null, null, EvaluateTree.FALSE, EvaluateTree.FALSE);
+
+    assertEquals(false, EvaluateTree.evaluateTree(tree));
+  }
 }
