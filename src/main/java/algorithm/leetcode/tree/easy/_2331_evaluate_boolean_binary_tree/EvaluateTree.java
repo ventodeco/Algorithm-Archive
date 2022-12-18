@@ -17,7 +17,7 @@ public class EvaluateTree {
     }
 
     if (root.val == OR) {
-      return evaluateTree(root.left);
+      return evaluateTree(root.left) || evaluateTree(root.right);
     }
 
     return true;
