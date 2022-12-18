@@ -45,4 +45,12 @@ public class EvaluateTreeTest {
 
     assertEquals(true, EvaluateTree.evaluateTree(tree));
   }
+
+  @Test
+  @DisplayName("evaluation tree with one node (OR) has one leaf right false should return false")
+  void testEvaluationTree_rootWithOnlyOneNodeOR_hasOneLeafRightFalse_returnFalse() {
+    TreeNode tree = TreeNode.newTree(EvaluateTree.OR, null, EvaluateTree.FALSE);
+
+    assertEquals(false, EvaluateTree.evaluateTree(tree));
+  }
 }
