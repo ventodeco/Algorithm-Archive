@@ -22,7 +22,7 @@ public class EvaluateTree {
     }
 
     if (root.val == AND) {
-      return false;
+      return evaluateTree(root.left) && evaluateTree(root.right);
     }
 
     return true;
