@@ -21,4 +21,12 @@ public class EvaluateTreeTest {
 
     assertEquals(true, EvaluateTree.evaluateTree(tree));
   }
+
+  @Test
+  @DisplayName("evaluation tree with one node should return false")
+  void testEvaluationTree_rootWithOnlyOneNode_returnFalse() {
+    TreeNode tree = TreeNode.newTree(EvaluateTree.FALSE);
+
+    assertEquals(false, EvaluateTree.evaluateTree(tree));
+  }
 }
