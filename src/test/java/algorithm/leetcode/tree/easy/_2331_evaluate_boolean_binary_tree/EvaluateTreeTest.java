@@ -29,4 +29,12 @@ public class EvaluateTreeTest {
 
     assertEquals(false, EvaluateTree.evaluateTree(tree));
   }
+
+  @Test
+  @DisplayName("evaluation tree with one node (OR) has one leaf left false should return false")
+  void testEvaluationTree_rootWithOnlyOneNodeOR_hasOneLeafLeftFalse_returnFalse() {
+    TreeNode tree = TreeNode.newTree(EvaluateTree.OR, EvaluateTree.FALSE);
+
+    assertEquals(false, EvaluateTree.evaluateTree(tree));
+  }
 }

@@ -5,6 +5,7 @@ import algorithm.leetcode.tree.TreeNode;
 public class EvaluateTree {
   public static int TRUE = 1;
   public static int FALSE = 0;
+  public static int OR = 2;
 
   public static boolean evaluateTree(TreeNode root) {
     if (root == null) {
@@ -13,6 +14,10 @@ public class EvaluateTree {
 
     if (root.val == FALSE) {
       return false;
+    }
+
+    if (root.val == OR) {
+      return evaluateTree(root.left);
     }
 
     return true;
