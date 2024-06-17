@@ -1,35 +1,44 @@
 class Solution {
     public List<List<String>> groupAnagrams(String[] strs) {
-        Map<String, List<String>> mapStringList = new HashMap<>();
         
-        char[] strArray;
+        if (strs.length == 0) {
+            return List.of(List.of());
+        }
+
+        Map<String, List<String>> groupAnagramMap = new HashMap<>();
         String sortedString;
-        List<String> existingStringList;
-        List<String> newStringList;
-        for (String str : strs) {
-            strArray = str.toCharArray();
-            Arrays.sort(strArray);
-            sortedString = String.valueOf(strArray);
-            
-            if (mapStringList.get(sortedString) != null) {
-                existingStringList = mapStringList.get(sortedString);
-                existingStringList.add(str);
-                mapStringList.put(sortedString, existingStringList);
-                continue;
+        List<String> listString;
+        for (int i = 0; i < strs.length; i++) {
+            sortedString = getSortedString(strs[i]);
+
+            listString = groupAnagramMap.get(sortedString);
+            if (listString != null) {
+                listString.add(strs[i]);
+            } else {
+                listString = new ArrayList<>();
+                listString.add(strs[i]);
+                groupAnagramMap.put(sortedString, listString);
             }
-            
-            newStringList = new ArrayList<>();
-            newStringList.add(str);
-            mapStringList.put(sortedString, newStringList);
         }
         
-        List<List<String>> resultString = new ArrayList<>();
-        
-        for (Map.Entry<String, List<String>> entry : mapStringList.entrySet()) {
-            existingStringList = entry.getValue();
-            resultString.add(existingStringList);
+        List<List<String>> result = new ArrayList<>();
+        for (Map.Entry<String, List<String>> groupAnagram : groupAnagramMap.entrySet()) {
+            result.add(groupAnagram.getValue());
         }
         
-        return resultString;
+        return result;
+    }
+
+    private String getSortedString(String str) {
+        char[] strFromChar = str.toCharArray();
+        
+        Arrays.sort(strFromChar);
+        
+        String newString = "";
+        for (int i = 0; i < strFromChar.length; i++) {
+            newString += strFromChar[i];
+        }
+        
+        return newString;
     }
 }
