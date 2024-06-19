@@ -1,55 +1,47 @@
 class Solution {
     public int[] topKFrequent(int[] nums, int k) {
-        // save on map, <number, totalValue> X
-        // try to save on map with in reverse order <totalValue, List<number>> X
-        // save on heap for the totalValue maxHeap
-        // result pick from heap
-        
-        Map<Integer, Integer> numsAndCounterMap = new HashMap<>();
-        
-        Integer totalValue;
-        for (int num : nums) {
-            if (numsAndCounterMap.get(num) != null) {
-                totalValue = numsAndCounterMap.get(num);
-                totalValue++;
-                numsAndCounterMap.put(num, totalValue);
+        Map<Integer, Integer> mapFrequentNumber = new HashMap<>();
+
+        for (int i = 0; i < nums.length; i++) {
+            if (mapFrequentNumber.get(nums[i]) != null) {
+                mapFrequentNumber.put(nums[i], mapFrequentNumber.get(nums[i]) + 1);
+            } else {
+                mapFrequentNumber.put(nums[i], 1);
+            }
+        }
+
+        Map<Integer, List<Integer>> numberBasedOnFrequentMap = new HashMap<>();
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>((a, b) -> b - a);
+        List<Integer> tempList;
+        for (Map.Entry<Integer, Integer> entry : mapFrequentNumber.entrySet()) {
+            if (numberBasedOnFrequentMap.get(entry.getValue()) != null) {
+                tempList = numberBasedOnFrequentMap.get(entry.getValue());
+                tempList.add(entry.getKey());
+                numberBasedOnFrequentMap.put(entry.getValue(), tempList);
+            } else {
+                maxHeap.add(entry.getValue());
+                tempList = new ArrayList<>();
+                tempList.add(entry.getKey());
+                numberBasedOnFrequentMap.put(entry.getValue(), tempList);
+            }
+        }
+
+        int pollNumber;
+        List<Integer> resultList = new ArrayList<>();
+        int kTarget = k;
+        while (!maxHeap.isEmpty()) {
+            pollNumber = maxHeap.poll();
+            
+            for (Integer value : numberBasedOnFrequentMap.get(pollNumber)) {
+                if (kTarget <= 0) {
+                    break;
+                }
+                resultList.add(value);
+                kTarget--;
                 
-                continue;
-            }
-            
-            numsAndCounterMap.put(num, 0);
-        }
-        
-        Map<Integer, List<Integer>> counterAndNumsList = new HashMap<>();
-        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
-        
-        List<Integer> numberList;
-        for (Map.Entry<Integer, Integer> entry : numsAndCounterMap.entrySet()) {
-            if (counterAndNumsList.get(entry.getValue()) != null) {
-                numberList = counterAndNumsList.get(entry.getValue());
-                numberList.add(entry.getKey());
-                counterAndNumsList.put(entry.getValue(), numberList);
-                
-                continue;
-            }
-            
-            maxHeap.add(entry.getValue());
-            numberList = new ArrayList<>();
-            numberList.add(entry.getKey());
-            counterAndNumsList.put(entry.getValue(), numberList);
-        }
-        
-        int[] result = new int[k];
-        int i = 0;
-        while (i < k) {
-            numberList = counterAndNumsList.get(maxHeap.poll());
-            
-            for (Integer number : numberList) {
-                result[i] = number;
-                i++;
             }
         }
         
-        return result;
+        return resultList.stream().mapToInt(i -> i).toArray();
     }
 }
