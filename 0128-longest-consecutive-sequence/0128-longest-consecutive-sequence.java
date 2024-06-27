@@ -4,38 +4,42 @@ class Solution {
         if (nums.length == 0) {
             return 0;
         }
-        
-        if (nums.length == 1) {
-            return 1;
-        }
-        
-        Set<Integer> minSet = new TreeSet<>();
+
+        SortedSet<Integer> sortedSet = new TreeSet<>();
+
         for (int i = 0; i < nums.length; i++) {
-            minSet.add(nums[i]);
+            sortedSet.add(nums[i]);
         }
         
-        int longestConsecutive = 0;
-        int tempLongestConsecutive = 1;
-        Integer previousNumber = null;
+        int result = 0;
+        int maxNumber = 0;
+        int prevNumber = 0;
+        for (Integer value : sortedSet) {
 
-        for (Integer number : minSet) {
-            if (previousNumber != null && previousNumber == number - 1) {
-                tempLongestConsecutive++;
-            } else {
-                if (longestConsecutive < tempLongestConsecutive) {
-                    longestConsecutive = tempLongestConsecutive;
-                }
-                tempLongestConsecutive = 1;
-            } 
+            if (result == 0) {
+                prevNumber = value;
+                result++;
+                continue;
+            }
             
-            previousNumber = number;
+            if (value - 1 != prevNumber) {
+                if (maxNumber < result) {
+                    maxNumber = result;
+                }
+                
+                result = 1;
+                prevNumber = value;
+                continue;
+            }
+            
+            prevNumber = value;
+            result++;
         }
         
-        
-        if (tempLongestConsecutive > longestConsecutive) {
-            longestConsecutive = tempLongestConsecutive;
+        if (maxNumber < result) {
+            maxNumber = result;
         }
-
-        return longestConsecutive;
+        
+        return maxNumber;
     }
 }
