@@ -1,9 +1,4 @@
 class Solution {
-    
-    private Set<String> setString = new HashSet<>();
-    private PriorityQueue<Integer> copyPQ = new PriorityQueue<>();
-    private String hashString;
-    
     // notes:
     // - if we found same number from previous index, we can just skip it
     
@@ -15,7 +10,6 @@ class Solution {
 
     public List<List<Integer>> threeSum(int[] nums) {
         Arrays.sort(nums);
-        int tempResult;
         List<Integer> numberList;
         List<List<Integer>> result = new ArrayList<>();
         int sum;
