@@ -1,10 +1,8 @@
 class Solution {
     public boolean searchMatrix(int[][] matrix, int target) {
-        
-        int sizeColumn = matrix[0].length - 1;
-        
+    
         for (int i = 0; i < matrix.length; i++) {
-            if (target > matrix[i][sizeColumn]) {
+            if (target > matrix[i][matrix[0].length - 1]) {
                 continue;
             }
             
