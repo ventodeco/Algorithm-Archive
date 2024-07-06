@@ -8,34 +8,52 @@ class Solution {
         Map<Character, Integer> s1Map = stringToMap(s1, new HashMap<>());
         Map<Character, Integer> s2Map = new HashMap<>();        
 
-        Integer leftPointer;
-        Integer rightPointer;
+        Integer leftPointer = 0;
+        Integer rightPointer = s1.length();
         Integer tempValue;
-        for (int i = 0; i < s2.length(); i++) {
-            if (! s1Map.containsKey(s2.charAt(i))) {
-                continue;
+
+        while (leftPointer < rightPointer && leftPointer < s2.length()) {
+            if (s2Map.containsKey(s2.charAt(leftPointer))) {
+                tempValue = s2Map.get(s2.charAt(leftPointer));
+                tempValue++;
+                s2Map.put(s2.charAt(leftPointer), tempValue);
+            } else {
+                s2Map.put(s2.charAt(leftPointer), 1);
             }
+            leftPointer++;
+        }
 
-            leftPointer = i;
-            rightPointer = i + s1.length();
-            s2Map.clear();
+        leftPointer = 0;
+        rightPointer = s1.length();
 
-            while (leftPointer < rightPointer && leftPointer < s2.length()) {
-                if (s2Map.containsKey(s2.charAt(leftPointer))) {
-                    tempValue = s2Map.get(s2.charAt(leftPointer));
-                    tempValue++;
-                    s2Map.put(s2.charAt(leftPointer), tempValue);
-                } else {
-                    s2Map.put(s2.charAt(leftPointer), 1);
-                }
-                leftPointer++;
-            }
-
+        while (leftPointer < rightPointer && rightPointer < s2.length()) {
             if (s1Map.equals(s2Map)) {
-                System.out.println(s1Map);
-                System.out.println(s2Map);
                 return true;
             }
+
+            tempValue = s2Map.get(s2.charAt(leftPointer));
+            tempValue--;
+
+            if (tempValue == 0) {
+                s2Map.remove(s2.charAt(leftPointer));
+            } else {
+                s2Map.put(s2.charAt(leftPointer), tempValue);
+            }
+
+            if (s2Map.containsKey(s2.charAt(rightPointer))) {
+                tempValue = s2Map.get(s2.charAt(rightPointer));
+                tempValue++;
+                s2Map.put(s2.charAt(rightPointer), tempValue);
+            } else {
+                s2Map.put(s2.charAt(rightPointer), 1);
+            }
+
+            leftPointer++;
+            rightPointer++;
+        }
+
+        if (s1Map.equals(s2Map)) {
+            return true;
         }
         
         return false;
