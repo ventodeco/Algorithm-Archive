@@ -1,38 +1,59 @@
 class Solution {
     public boolean checkInclusion(String s1, String s2) {
+
+        if (s1.length() > s2.length()) {
+            return false;
+        }
+
+        Map<Character, Integer> s1Map = stringToMap(s1, new HashMap<>());
+        Map<Character, Integer> s2Map = new HashMap<>();        
+
+        Integer leftPointer;
+        Integer rightPointer;
+        Integer tempValue;
+        for (int i = 0; i < s2.length(); i++) {
+            if (! s1Map.containsKey(s2.charAt(i))) {
+                continue;
+            }
+
+            leftPointer = i;
+            rightPointer = i + s1.length();
+            s2Map.clear();
+
+            while (leftPointer < rightPointer && leftPointer < s2.length()) {
+                if (s2Map.containsKey(s2.charAt(leftPointer))) {
+                    tempValue = s2Map.get(s2.charAt(leftPointer));
+                    tempValue++;
+                    s2Map.put(s2.charAt(leftPointer), tempValue);
+                } else {
+                    s2Map.put(s2.charAt(leftPointer), 1);
+                }
+                leftPointer++;
+            }
+
+            if (s1Map.equals(s2Map)) {
+                System.out.println(s1Map);
+                System.out.println(s2Map);
+                return true;
+            }
+        }
         
-        if (s1.length() > s2.length()) return false;
-        
-        int [] f1 = new int [26];
-        int [] f2 = new int [26];
-
-        for(int i = 0; i < s1.length();i++)
-        {
-            f1[s1.charAt(i)-'a']++;
-        }
-        for(int i=0;i<s1.length()-1;i++)
-        {
-            f2[s2.charAt(i)-'a']++;
-        }
-
-
-        if(check(f1, f2)) return true;
-
-        for(int i = s1.length() - 1, j=0;i<s2.length();i++,j++)
-        {
-            f2[s2.charAt(i)-'a']++;
-            if(check(f1,f2)) return true;
-            f2[s2.charAt(j)-'a']--;
-        }
         return false;
     }
-    
-    public static boolean check(int []f1,int[] f2)
-    {
-        for(int i = 0; i < 26; i++)
-        {
-            if (f1[i] != f2[i]) return false;
+
+    private Map<Character, Integer> stringToMap(String s, Map<Character, Integer> map) {
+
+        int tempValue;
+        for (int i = 0; i < s.length(); i++) {
+            if (map.containsKey(s.charAt(i))) {
+                tempValue = map.get(s.charAt(i));
+                tempValue++;
+                map.put(s.charAt(i), tempValue);
+            } else {
+                map.put(s.charAt(i), 1);
+            }
         }
-        return true;
+
+        return map;
     }
 }
