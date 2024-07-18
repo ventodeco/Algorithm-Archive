@@ -3,8 +3,6 @@ class Solution {
         List<String> strList = new ArrayList<>();
         
         String str = "";
-        Boolean strStart = true;
-        Boolean strEnd = false;
         for (int i = 0; i < s.length(); i++) {
             if (s.charAt(i) != ' ') {
                 str += s.charAt(i);
