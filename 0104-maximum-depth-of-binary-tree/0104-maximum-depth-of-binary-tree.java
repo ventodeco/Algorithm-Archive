@@ -1,19 +1,16 @@
 class Solution {
     public int maxDepth(TreeNode root) {
-
-        if (root == null) {
-            return 0;
-        }
-
-        return countDepth(root, 1);
+        return countDepth(root, 0);
     }
 
-    private int countDepth(TreeNode root, int counter) {
-
-        if (root == null || (root.right == null && root.left == null)) {
-            return counter;
+    private int countDepth(TreeNode root, int count) {
+        
+        if (root == null) {
+            return count;
         }
-
-        return Math.max(countDepth(root.right, counter + 1), countDepth(root.left, counter + 1));
+        
+        count++;
+        
+        return Math.max(countDepth(root.right, count), countDepth(root.left, count));
     }
 }
