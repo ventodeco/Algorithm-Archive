@@ -1,76 +1,45 @@
 class LRUCache {
-    
-    private class Node {
-        int key;
-        int value;
-        Node prev;
-        Node next;
-        
-        Node(int key, int value) {
-            this.key = key;
-            this.value = value;
-        }
-    }
 
-    private Map<Integer, Node> cache;
+    private Map<Integer, Integer> map;
+    private Deque<Integer> dataKeeper;
     private Integer capacity;
-    private Node head;
-    private Node tail;
 
     public LRUCache(int capacity) {
-
-        cache = new HashMap<>();
+        map = new HashMap<>();
+        dataKeeper = new ArrayDeque<>();
         this.capacity = capacity;
-        
-        head = new Node(0, 0);
-        tail = new Node(0, 0);
-        head.next = tail;
-        tail.prev = head;
     }
 
     public int get(int key) {
-
-        if (! cache.containsKey(key)) {
+        Integer value = map.get(key);
+        if (value == null) {
             return -1;
         }
-        
-        Node node = cache.get(key);
-        remove(node);
-        insert(node);
 
-        return node.value;
+        if (dataKeeper.peek() != key) {
+            dataKeeper.remove(key);
+            dataKeeper.addFirst(key);
+        }
+
+        return value;
     }
 
     public void put(int key, int value) {
 
-        if (cache.containsKey(key)) {
-            remove(cache.get(key));
+        if (dataKeeper.isEmpty()) {
+            dataKeeper.addFirst(key);
+        } else if (map.containsKey(key) && dataKeeper.peek() != key) {
+            dataKeeper.remove(key);
+            dataKeeper.addFirst(key);
+        } else if (! map.containsKey(key)) {
+            dataKeeper.addFirst(key);
         }
 
-        if (cache.size() == capacity) {
-            remove(tail.prev);
-        }
+        map.put(key, value);
 
-        insert(new Node(key, value));
-    }
-    
-    private void remove(Node node) {
-
-        cache.remove(node.key);
-
-        node.prev.next = node.next;
-        node.next.prev = node.prev;
-    }
-    
-    private void insert(Node node) {
-
-        cache.put(node.key, node);
-        
-        node.next = head.next;
-        head.next.prev = node;
-
-        node.prev = head;
-        head.next = node;
+        if (dataKeeper.size() > capacity) {
+            map.remove(dataKeeper.pollLast());
+        }        
     }
 }
 
