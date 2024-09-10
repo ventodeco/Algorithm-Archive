@@ -4,11 +4,12 @@ class Solution {
         
         int[] result = new int[temperatures.length];
         int tempValue;
+        int[] tempArr;
         for (int i = temperatures.length - 1; i >= 0; i--) {
 
             tempValue = 0;
             while (! stack.isEmpty()) {
-                int[] tempArr = stack.peek();
+                tempArr = stack.peek();
                 if (temperatures[i] >= tempArr[0]) {
                     stack.pop();
                 } else {
