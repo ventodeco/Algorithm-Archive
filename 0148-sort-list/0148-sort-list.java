@@ -15,25 +15,17 @@ class Solution {
             return null;
         }
         
-        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>((a, b) -> b - a);
+        
         while (head != null) {
-            minHeap.add(head.val);
+            maxHeap.add(head.val);
             head = head.next;
         }
         
-        ListNode result = new ListNode();
-        ListNode iterator = result;
-        ListNode temp;
-        while (! minHeap.isEmpty()) {
-            iterator.val = minHeap.poll();
-
-            if (! minHeap.isEmpty()) {
-                temp = new ListNode();
-                iterator.next = temp;
-                iterator = iterator.next;
-            }
+        while (! maxHeap.isEmpty()) {
+            head = new ListNode(maxHeap.poll(), head);
         }
-        
-        return result;
+
+        return head;
     }
 }
