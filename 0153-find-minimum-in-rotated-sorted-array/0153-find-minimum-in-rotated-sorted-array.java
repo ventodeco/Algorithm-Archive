@@ -1,12 +1,28 @@
 class Solution {
     public int findMin(int[] nums) {
+
+        int min = Integer.MAX_VALUE;
+
+        int left = 0, right = nums.length - 1;
         
-        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+        while (left <= right) {
+            
+            if (min < nums[left] && min < nums[right]) {
+                break;
+            }
+            
+            if (min > nums[left]) {
+                min = nums[left];
+            }
+            
+            if (min > nums[right]) {
+                min = nums[right];
+            }
 
-        for (int i = 0; i < nums.length; i++) {
-            minHeap.add(nums[i]);
+            left++;
+            right--;
         }
-
-        return minHeap.peek();
+        
+        return min;
     }
 }
