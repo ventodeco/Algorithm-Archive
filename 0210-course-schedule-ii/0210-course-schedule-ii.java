@@ -1,69 +1,71 @@
 class Solution {
 
-    private static Integer NOT_VISITED = 0;
-    private static Integer VISITING = 1;
-    private static Integer VISITED = 2;
+    private static int NOT_VISITED = 0;
+    private static int VISITING = 1;
+    private static int VISITED = 2;
+    private Map<Integer, List<Integer>> listPrereqMap;
+    private Map<Integer, Integer> checkStatus;
+    private Deque<Integer> keepResult;
+    private Boolean isCycled;
 
-    private boolean isCycled;
-    private Map<Integer, List<Integer>> graph;
-    private Map<Integer, Integer> nodeStatus;
-    private List<Integer> courseOrder;
+    private void checkCourse(int course) {
+        List<Integer> listPrereq = listPrereqMap.get(course);
 
-    private void dfs(int course) {
-        
-        if (isCycled) {
+        if (listPrereq == null) {
+            keepResult.addFirst(course);
+            checkStatus.put(course, VISITED);
             return;
         }
 
-        nodeStatus.put(course, VISITING);
-        List<Integer> neighbors = graph.get(course);
-
-        if (neighbors != null) {
-            for (Integer neighbor : neighbors) {
-                if (nodeStatus.get(neighbor) == NOT_VISITED) {
-                    dfs(neighbor);
-                } else if (nodeStatus.get(neighbor) == VISITING) {
-                    isCycled = true;
-                }
+        for (Integer courseReq : listPrereq) {
+            if (checkStatus.get(courseReq) == NOT_VISITED) {
+                checkStatus.put(courseReq, VISITING);
+                checkCourse(courseReq);
+            } else if (checkStatus.get(courseReq) == VISITING) {
+                isCycled = true; 
+                return;
             }
         }
+        
+        checkStatus.put(course, VISITED);
+        keepResult.addFirst(course);
 
-        nodeStatus.put(course, VISITED);
-        courseOrder.add(course);
+        return;
     }
 
     public int[] findOrder(int numCourses, int[][] prerequisites) {
+        checkStatus = new HashMap<>();
+        listPrereqMap = new HashMap<>();
+        keepResult = new ArrayDeque<>();
         isCycled = false;
-        graph = new HashMap<>();
-        nodeStatus = new HashMap<>();
-        courseOrder = new ArrayList<>();
 
         for (int i = 0; i < numCourses; i++) {
-            nodeStatus.put(i, NOT_VISITED);
+            checkStatus.put(i, NOT_VISITED);
         }
 
         for (int i = 0; i < prerequisites.length; i++) {
-            int source = prerequisites[i][1];
-            int destination = prerequisites[i][0];
+            int reqPreq = prerequisites[i][1];
+            int course = prerequisites[i][0];
 
-            List<Integer> list = graph.getOrDefault(source, new ArrayList<>());
-            list.add(destination);
-            graph.put(source, list);
+            List<Integer> list = listPrereqMap.getOrDefault(course, new ArrayList<>());
+            list.add(reqPreq);
+            listPrereqMap.put(course, list);
         }
 
         for (int i = 0; i < numCourses; i++) {
-            if (nodeStatus.get(i) == NOT_VISITED) {
-                dfs(i);
+            if (checkStatus.get(i) == NOT_VISITED) {
+                checkStatus.put(i, VISITING);
+                checkCourse(i);
             }
         }
-
+        
         if (isCycled) {
             return new int[]{};
         }
 
         int[] result = new int[numCourses];
-        for (int i = 0; i < numCourses; i++) {
-            result[i] = courseOrder.get(numCourses - i - 1);
+        for (int i = 0; i < result.length; i++) {
+            result[i] = keepResult.removeLast();
         }
 
         return result;
