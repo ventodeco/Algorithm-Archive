@@ -1,47 +1,26 @@
 class Solution {
     public int[] topKFrequent(int[] nums, int k) {
-        Map<Integer, Integer> mapFrequentNumber = new HashMap<>();
+        Map<Integer, Integer> map = new HashMap<>();
 
+        Integer counter;
         for (int i = 0; i < nums.length; i++) {
-            if (mapFrequentNumber.get(nums[i]) != null) {
-                mapFrequentNumber.put(nums[i], mapFrequentNumber.get(nums[i]) + 1);
-            } else {
-                mapFrequentNumber.put(nums[i], 1);
-            }
+            counter = map.getOrDefault(nums[i], 1);
+            counter += 1;
+            map.put(nums[i], counter);
         }
 
-        Map<Integer, List<Integer>> numberBasedOnFrequentMap = new HashMap<>();
-        PriorityQueue<Integer> maxHeap = new PriorityQueue<>((a, b) -> b - a);
-        List<Integer> tempList;
-        for (Map.Entry<Integer, Integer> entry : mapFrequentNumber.entrySet()) {
-            if (numberBasedOnFrequentMap.get(entry.getValue()) != null) {
-                tempList = numberBasedOnFrequentMap.get(entry.getValue());
-                tempList.add(entry.getKey());
-                numberBasedOnFrequentMap.put(entry.getValue(), tempList);
-            } else {
-                maxHeap.add(entry.getValue());
-                tempList = new ArrayList<>();
-                tempList.add(entry.getKey());
-                numberBasedOnFrequentMap.put(entry.getValue(), tempList);
-            }
+        PriorityQueue<int[]> maxHeap = new PriorityQueue<>((a, b) -> b[1] - a[1]);
+
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            maxHeap.add(new int[]{entry.getKey(), entry.getValue()});
         }
 
-        int pollNumber;
-        List<Integer> resultList = new ArrayList<>();
-        int kTarget = k;
-        while (!maxHeap.isEmpty()) {
-            pollNumber = maxHeap.poll();
-            
-            for (Integer value : numberBasedOnFrequentMap.get(pollNumber)) {
-                if (kTarget <= 0) {
-                    break;
-                }
-                resultList.add(value);
-                kTarget--;
-                
-            }
+        int[] result = new int[k];
+
+        for (int i = 0; i < k; i++) {
+            result[i] = maxHeap.poll()[0];
         }
-        
-        return resultList.stream().mapToInt(i -> i).toArray();
+
+        return result;
     }
 }
