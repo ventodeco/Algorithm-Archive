@@ -1,7 +1,7 @@
 class Solution {
     public int[] twoSum(int[] numbers, int target) {
         int left = 0;
-        int right = 1;
+        int right = numbers.length - 1;
 
         int sumValue;
         while (left < right) {
@@ -10,12 +10,8 @@ class Solution {
                 return new int[]{left + 1, right + 1};
             }
 
-            if (sumValue < target) {
-                if (right + 1 == numbers.length) {
-                    left++;
-                    continue;
-                }
-                right++;
+            if (sumValue > target) {
+                right--;
                 continue;
             }
 
