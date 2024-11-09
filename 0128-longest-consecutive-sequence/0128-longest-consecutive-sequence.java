@@ -20,6 +20,9 @@ class Solution {
             }
 
             if (tempValue - 1 == prevValue) {
+                System.out.println(tempValue);
+                System.out.println(prevValue);
+                System.out.println("hehe");
                 maxLongTemp += 1;
                 prevValue = tempValue;
                 continue;
@@ -27,8 +30,8 @@ class Solution {
 
             if (maxLongTemp > maxLong) {
                 maxLong = maxLongTemp;
-                maxLongTemp = 0;
             }
+            maxLongTemp = 0;
             minSet.add(tempValue);
             prevValue = null;
         }
