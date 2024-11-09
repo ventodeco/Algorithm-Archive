@@ -1,98 +1,98 @@
 class Solution {
-    
-    private static final int MAX_BOARD = 9;
-    private static final int MAX_BOX = 3;
-    private Set<Integer> integerSet;
+
+    private Set<Integer> set = new HashSet<>();
+    private static int LENGTH = 9;
+    private char[][] board;
     private int tempValue;
-    
+
     public boolean isValidSudoku(char[][] board) {
-        for (int i = 0; i < MAX_BOARD; i++) {
-            if (! validateRow(i, board)) {
+        this.board = board;
+
+        for (int it = 0; it < LENGTH; it++) {
+            set.clear();
+            if (isDuplicateInRow(it)) {
                 return false;
             }
-            
-            if (! validateColumn(i, board)) {
+            set.clear();
+            if (isDuplicateInCol(it)) {
                 return false;
             }
         }
-        
-        int iterationX = 0;
-        int iterationY;
-        while (iterationX < MAX_BOARD) {
-            iterationY = 0;
-            while (iterationY < MAX_BOARD) {
-                if (! validateBox(iterationX, iterationY, board)) {
+
+        for (int i = 0; i < LENGTH; i = i + 3) {
+            for (int j = 0; j < LENGTH; j = j + 3) {
+                set.clear();
+                if (isDuplicateInBox(i, j)) {
                     return false;
                 }
-                iterationY += 3;
             }
-            iterationX += 3;
-        }
-        
-        return true;
-    }
-
-    private boolean validateRow(int startX, char[][] board) {
-        integerSet = new HashSet<>();
-        for (int i = 0; i < MAX_BOARD; i++) {
-            if (board[i][startX] == '.') {
-                continue;
-            }
-            tempValue = board[i][startX] - '0';
-            if (integerSet.contains(tempValue)) {
-                return false;
-            }
-
-            integerSet.add(tempValue);
         }
 
         return true;
     }
 
-    private boolean validateColumn(int startY, char[][] board) {
-        integerSet = new HashSet<>();
-        for (int i = 0; i < MAX_BOARD; i++) {
-            if (board[startY][i] == '.') {
-                continue;
-            }
-            tempValue = board[startY][i] - '0';
-            if (integerSet.contains(tempValue)) {
-                return false;
-            }
-
-            integerSet.add(tempValue);
-        }
-
-        return true;
-    }
-
-    private boolean validateBox(int startX, int startY, char[][] board) {
-        integerSet = new HashSet<>();
-        for (int i = startX; i < startX + MAX_BOX; i++) {
-            for (int j = startY; j < startY + MAX_BOX; j++) {
-                if (board[i][j] == '.') {
+    private boolean isDuplicateInBox(int currRow, int currCol) {
+        for (int row = currRow; row < currRow + 3; row++) {
+            for (int col = currCol; col < currCol + 3; col++) {
+                if (board[row][col] == '.') {
                     continue;
                 }
-                tempValue = board[i][j] - '0';
-                if (integerSet.contains(tempValue)) {
-                    return false;
+
+                tempValue = board[row][col] - '0';
+
+                if (
+                    set.contains(tempValue) || 
+                    tempValue < 0 || 
+                    tempValue > 9
+                ) {
+                    return true;
                 }
-                
-                integerSet.add(tempValue);
+                set.add(tempValue);
             }
         }
-        
-        return true;
+
+        return false;
+    }
+
+    private boolean isDuplicateInRow(int row) {
+        for (int col = 0; col < LENGTH; col++) {
+            if (board[row][col] == '.') {
+                continue;
+            }
+
+            tempValue = board[row][col] - '0';
+
+            if (
+                set.contains(tempValue) || 
+                tempValue < 0 || 
+                tempValue > 9
+            ) {
+                return true;
+            }
+            set.add(tempValue);
+        }
+
+        return false;
+    }
+
+    private boolean isDuplicateInCol(int col) {
+        for (int row = 0; row < LENGTH; row++) {
+            if (board[row][col] == '.') {
+                continue;
+            }
+
+            tempValue = board[row][col] - '0';
+
+            if (
+                set.contains(tempValue) || 
+                tempValue < 0 || 
+                tempValue > 9
+            ) {
+                return true;
+            }
+            set.add(tempValue);
+        }
+
+        return false;
     }
 }
-
-// [[".",".",".",".",".",".","5",".","."],
-//  [".",".",".",".",".",".",".",".","."],
-//  [".",".",".",".",".",".",".",".","."],
-//  ["9","3",".",".","2",".","4",".","."],
-//  [".",".","7",".",".",".","3",".","."],
-//  [".",".",".",".",".",".",".",".","."],
-//  [".",".",".","3","4",".",".",".","."],
-//  [".",".",".",".",".","3",".",".","."],
-//  [".",".",".",".",".","5","2",".","."]]
- 
