@@ -6,7 +6,7 @@ impl Solution {
         let mut right : usize = conversion.len() - 1;
 
         while left < right {
-            if conversion.chars().nth(left).unwrap() != conversion.chars().nth(right).unwrap() {
+            if conversion.chars().nth(left) != conversion.chars().nth(right) {
                 return false;
             }
 
