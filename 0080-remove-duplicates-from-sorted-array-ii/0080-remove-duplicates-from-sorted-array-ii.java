@@ -1,24 +1,26 @@
 class Solution {
     public int removeDuplicates(int[] nums) {
         
-        if (nums.length == 0 || nums.length == 1) {
-            return nums.length;
-        }
+        Map<Integer, Integer> map = new HashMap<>();
+        int keeper = 0;
 
-        int low = 1, count = 1;
-
-        for (int high = 1; high < nums.length; high++) {
-            if (nums[high] == nums[high - 1]) {
-                count++;
-            } else {
-                count = 1;
+        for (int i = 0; i < nums.length; i++) {
+            if (!map.containsKey(nums[i])) {
+                map.put(nums[i], 1);
+                nums[keeper] = nums[i];
+                keeper++;
+                continue;
             }
 
-            if (count <= 2) {
-                nums[low++] = nums[high];
+            if (map.get(nums[i]) >= 2) {
+                continue;
             }
+
+            nums[keeper] = nums[i];
+            map.put(nums[i], 2);
+            keeper++;
         }
 
-        return low;
+        return keeper;
     }
 }
