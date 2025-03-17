@@ -1,7 +1,7 @@
 class MedianFinder {
-    
-    PriorityQueue<Integer> leftSideKeeper;
-    PriorityQueue<Integer> rightSideKeeper;
+
+    private PriorityQueue<Integer> leftSideKeeper;
+    private PriorityQueue<Integer> rightSideKeeper;
 
     public MedianFinder() {
         rightSideKeeper = new PriorityQueue<>();
