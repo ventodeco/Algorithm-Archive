@@ -1,42 +1,48 @@
 class MedianFinder {
 
-    private PriorityQueue<Integer> leftSideKeeper;
-    private PriorityQueue<Integer> rightSideKeeper;
+    PriorityQueue<Integer> leftSide;
+    PriorityQueue<Integer> rightSide;
 
     public MedianFinder() {
-        rightSideKeeper = new PriorityQueue<>();
-        leftSideKeeper = new PriorityQueue<>((a, b) -> b - a);
+        leftSide = new PriorityQueue<>((a, b) -> b - a);
+        rightSide = new PriorityQueue<>();
     }
 
     public void addNum(int num) {
-        if (leftSideKeeper.isEmpty()) {
-            leftSideKeeper.add(num);   
-        } else if (leftSideKeeper.peek() < num && rightSideKeeper.isEmpty()) {
-            rightSideKeeper.add(num);
-        } else if (! rightSideKeeper.isEmpty() && rightSideKeeper.peek() < num) {
-            rightSideKeeper.add(num);
-        } else {
-            leftSideKeeper.add(num);   
+
+        if (leftSide.isEmpty()) {
+            leftSide.add(num);
+            return;
         }
+
+        if (leftSide.peek() < num && rightSide.isEmpty()) {
+            rightSide.add(num);
+            return;
+        }
+
+        if (leftSide.peek() > num) {
+            leftSide.add(num);
+            return;
+        }
+
+        rightSide.add(num);
     }
 
     public double findMedian() {
+        
+        while (rightSide.size() < leftSide.size()) {
+            rightSide.add(leftSide.poll());
+        }
 
-        while (leftSideKeeper.size() > rightSideKeeper.size()) {
-            rightSideKeeper.add(leftSideKeeper.poll());
+        while (leftSide.size() < rightSide.size()) {
+            leftSide.add(rightSide.poll());
         }
-        
-        while (leftSideKeeper.size() < rightSideKeeper.size()) {
-            leftSideKeeper.add(rightSideKeeper.poll());
+
+        if (leftSide.size() != rightSide.size()) {
+            return (double) leftSide.peek();
         }
-        
-        if (leftSideKeeper.size() == rightSideKeeper.size()) {
-            return (double) (leftSideKeeper.peek() + rightSideKeeper.peek()) / 2;
-        } else if (leftSideKeeper.size() > rightSideKeeper.size()) {
-            return (double) leftSideKeeper.peek();
-        }
-        
-        return (double) rightSideKeeper.peek();
+        System.out.println("tes" + leftSide.peek() + " " + rightSide.peek());
+        return (double) (leftSide.peek() + rightSide.peek()) / 2;
     }
 }
 
