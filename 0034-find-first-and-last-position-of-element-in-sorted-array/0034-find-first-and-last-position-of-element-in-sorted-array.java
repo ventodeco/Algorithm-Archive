@@ -1,47 +1,38 @@
 class Solution {
-
     public int[] searchRange(int[] nums, int target) {
-        
-        if (nums.length == 0) {
-            return new int[]{-1, -1};
-        }
-        
-        int pivot = nums.length/2;
-        
-        int low = 0;
-        int high = nums.length - 1;
-        int mid = high/2;
+        int left = 0;
+        int right = nums.length - 1;
+        int leftVal = -1;
+        int rightVal = -1;
+        boolean isLeftFound = false;
+        boolean isRightFound = false;
 
-        while (low <= high) {
+        while (left <= right) {
+            
+            if (!isLeftFound) {
+                if (nums[left] == target) {
+                    leftVal = left;
+                    isLeftFound = true;
+                } else {
+                    left++;
+                }
+            }
+            
+            if (!isRightFound) {
+                if (nums[right] == target) {
+                    rightVal = right;
+                    isRightFound = true;
+                } else {
+                    right--;
+                }
+                
+            }
 
-            if (nums[mid] == target) {
+            if (isRightFound && isLeftFound) {
                 break;
             }
-
-            if (nums[mid] >= target) {
-                high = mid - 1;
-            } else {
-                low = mid + 1;
-            }
-
-            mid = (high+low)/2;
         }
 
-        int left = mid;
-        int right = mid;
-        int leftResult = -1;
-        int rightResult = -1;
-
-        while (left >= 0 && target == nums[left]) {
-            leftResult = left;
-            left--;
-        }
-        
-        while (right < nums.length && target == nums[right]) {
-            rightResult = right;
-            right++;
-        }
-
-        return new int[]{leftResult, rightResult};
+        return new int[]{leftVal, rightVal};
     }
 }
