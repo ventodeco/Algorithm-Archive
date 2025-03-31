@@ -1,42 +1,33 @@
 class Solution {
     public int lengthOfLongestSubstring(String s) {
-        
-        Set<Character> setCharacter = new HashSet<>();
-        int longestSubstring = 0;
-        int tempSumSubstring = 0;
-        
-        int leftPointer = 0;
-        int iterator;
-        
-        while (leftPointer < s.length()) {
-            iterator = leftPointer;
-            while (iterator < s.length()) {
-                
-                if (setCharacter.contains(s.charAt(iterator))) {
-                    
-                    if (longestSubstring < tempSumSubstring) {
-                        longestSubstring = tempSumSubstring;
-                    }
+        int result = 0;
 
-                    tempSumSubstring = 0;
-                    setCharacter.clear();
-                    break;
-                    
-                } else {
-                    setCharacter.add(s.charAt(iterator));
-                    tempSumSubstring += 1;
+        for (int i = 0; i < s.length(); i++) {
+            int left = i;
+            int right = i;
+            boolean isValid = true;
+            Set<Character> set = new HashSet<>();
+            int tempResult = 0;
+
+            while (isValid && right < s.length()) {
+
+                if (set.contains(s.charAt(right))) {
+                    isValid = false;
+                    continue;
                 }
 
-                iterator++;
+                tempResult += 1;
+                set.add(s.charAt(right));
+                right++;
             }
-            
-            leftPointer++;
+
+            if (tempResult > result) {
+                result = tempResult;
+            }
+
+            set.clear();
         }
-        
-        if (longestSubstring < tempSumSubstring) {
-            longestSubstring = tempSumSubstring;
-        }
-        
-        return longestSubstring;
+
+        return result;
     }
 }
