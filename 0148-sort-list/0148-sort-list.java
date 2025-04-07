@@ -10,22 +10,18 @@
  */
 class Solution {
     public ListNode sortList(ListNode head) {
-        
-        if (head == null) {
-            return null;
-        }
-        
         PriorityQueue<Integer> maxHeap = new PriorityQueue<>((a, b) -> b - a);
-        
+
         while (head != null) {
             maxHeap.add(head.val);
             head = head.next;
         }
-        
-        while (! maxHeap.isEmpty()) {
-            head = new ListNode(maxHeap.poll(), head);
+
+        ListNode result = null;
+        while (!maxHeap.isEmpty()) {
+            result = new ListNode(maxHeap.poll(), result);
         }
 
-        return head;
+        return result;
     }
 }
