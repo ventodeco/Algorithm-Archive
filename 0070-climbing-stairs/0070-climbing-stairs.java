@@ -5,7 +5,6 @@ class Solution {
         }
 
         int[] dp = new int[n];
-
         dp[0] = 1;
         dp[1] = 2;
 
