@@ -1,19 +1,19 @@
 class Solution {
     public void merge(int[] nums1, int m, int[] nums2, int n) {
         PriorityQueue<Integer> minHeap = new PriorityQueue<>();
-
-        for (int i = 0; i < m; i++) {
-            minHeap.add(nums1[i]);
-        }
-
-        for (int i = 0; i < n; i++) {
-            minHeap.add(nums2[i]);
-        }
+        addToHeap(nums1, m, minHeap);
+        addToHeap(nums2, n, minHeap);
 
         int it = 0;
         while (!minHeap.isEmpty()) {
             nums1[it] = minHeap.poll();
             it++;
+        }
+    }
+
+    private void addToHeap(int[] num, int size, PriorityQueue<Integer> minHeap) {
+        for (int i = 0; i < size; i++) {
+            minHeap.add(num[i]);
         }
     }
 }
