@@ -1,49 +1,46 @@
 class Solution {
     public String longestPalindrome(String s) {
-
-        String result = "";
-        Deque<Character> deque;
-        Integer left, right;
-
-        for (int i = 0; i < s.length(); i++) {
-
+        
+        String result = String.valueOf(s.charAt(0));
+        for (int i = 1; i < s.length(); i++) {
             // odd
-            deque = new ArrayDeque();
-            deque.addFirst(s.charAt(i));
-            left = i - 1;
-            right = i + 1;
-            result = checkPalindrome(left, right, s, deque, result);
+            int left = i - 1;
+            int right = i + 1;
+            String strTemp = String.valueOf(s.charAt(i));
+            while (left >= 0 && right < s.length()) {
+                if (s.charAt(left) != s.charAt(right)) {
+                    break;
+                }
+                strTemp = String.valueOf(s.charAt(left)) + strTemp + String.valueOf(s.charAt(right));
+                left--;
+                right++;
+            }
+
+            if (result.length() < strTemp.length()) {
+                result = strTemp;
+            }
 
             // even
-            left = i;
-            right = i + 1;
-            deque = new ArrayDeque();
-            result = checkPalindrome(left, right, s, deque, result);
+            if (s.charAt(i) == s.charAt(i - 1)) {
+                strTemp = String.valueOf(s.charAt(i - 1)) + String.valueOf(s.charAt(i));
+                left = i - 2;
+                right = i + 1;
+
+                while (left >= 0 && right < s.length()) {
+                    if (s.charAt(left) != s.charAt(right)) {
+                        break;
+                    }
+                    strTemp = String.valueOf(s.charAt(left)) + strTemp + String.valueOf(s.charAt(right));
+                    left--;
+                    right++;
+                }
+
+                if (result.length() < strTemp.length()) {
+                    result = strTemp;
+                }
+            }
         }
 
-        return result;
-    }
-    
-    private String checkPalindrome(int left, int right, String s, Deque<Character> deque, String result) {
-        while (left >= 0 && right < s.length()) {
-            if (s.charAt(left) != s.charAt(right)) {
-                break;
-            }
-
-            deque.addFirst(s.charAt(left));
-            deque.addLast(s.charAt(right));
-            left--;
-            right++;
-        }
-        
-        if (deque.size() > result.length()) {
-            StringBuilder stringBuilder = new StringBuilder();
-            for (Character ch : deque) {
-                stringBuilder.append(ch);
-            }
-            result = stringBuilder.toString();
-        }
-        
         return result;
     }
 }
