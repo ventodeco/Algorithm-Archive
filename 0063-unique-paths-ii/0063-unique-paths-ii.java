@@ -1,37 +1,41 @@
 class Solution {
     public int uniquePathsWithObstacles(int[][] obstacleGrid) {
 
-        int rows = obstacleGrid.length;
-        int cols = obstacleGrid[0].length;
+        int rowLen = obstacleGrid.length;
+        int colLen = obstacleGrid[0].length;
 
-        if (obstacleGrid[0][0] == 1 || obstacleGrid[rows - 1][cols - 1] == 1) {
+        if (obstacleGrid[0][0] == 1 || obstacleGrid[rowLen - 1][colLen - 1] == 1) {
             return 0;
         }
 
-        int[][] dp = new int[rows][cols];
+        int[][] dp = new int[rowLen][colLen];
 
-        for (int i = 0; i < rows; i++) {
+        for (int i = 0; i < rowLen; i++) {
             if (obstacleGrid[i][0] == 1) {
                 break;
             }
             dp[i][0] = 1;
         }
 
-        for (int i = 0; i < cols; i++) {
+        for (int i = 0; i < colLen; i++) {
             if (obstacleGrid[0][i] == 1) {
                 break;
             }
             dp[0][i] = 1;
         }
 
-        for (int i = 1; i < rows; i++) {
-            for (int j = 1; j < cols; j++) {
-                if (obstacleGrid[i][j] == 0) {
-                    dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+        for (int row = 1; row < rowLen; row++) {
+            for (int col = 1; col < colLen; col++) {
+                if (obstacleGrid[row - 1][col] != 1) {
+                    dp[row][col] += dp[row - 1][col];
+                }
+
+                if (obstacleGrid[row][col - 1] != 1) {
+                    dp[row][col] += dp[row][col - 1];
                 }
             }
         }
 
-        return dp[rows - 1][cols - 1];
+        return dp[rowLen - 1][colLen - 1];
     }
 }
