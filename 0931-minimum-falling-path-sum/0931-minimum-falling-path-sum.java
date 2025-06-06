@@ -1,30 +1,30 @@
 class Solution {
     public int minFallingPathSum(int[][] matrix) {
 
-        int n = matrix.length;
+        int rowLen = matrix.length;
+        int colLen = matrix[0].length;
 
-        for (int i = 1; i < n; i++) {
-            for (int j = 0; j < n; j++) {
+        for (int row = 1; row < rowLen; row++) {
+            for (int col = 0; col < colLen; col++) {
 
-                if (j == 0) {
-                    matrix[i][j] = matrix[i][j] + Math.min(matrix[i - 1][j], matrix[i - 1][j + 1]);
+                if (col == 0) {
+                    matrix[row][col] += Math.min(matrix[row - 1][col], matrix[row - 1][col + 1]);
                     continue;
                 }
 
-                if (j == n - 1) {
-                    matrix[i][j] = matrix[i][j] + Math.min(matrix[i - 1][j - 1], matrix[i - 1][j]);
+                if (col == colLen - 1) {
+                    matrix[row][col] += Math.min(matrix[row - 1][col - 1], matrix[row - 1][col]);
                     continue;
                 }
 
-                matrix[i][j] = matrix[i][j] + Math.min(matrix[i - 1][j - 1], Math.min(matrix[i - 1][j], matrix[i - 1][j + 1]));
+                matrix[row][col] += Math.min(matrix[row - 1][col - 1], Math.min(matrix[row - 1][col], matrix[row - 1][col + 1]));
             }
         }
 
         int result = Integer.MAX_VALUE;
-
-        for (int i = 0; i < n; i++) {
-            if (result > matrix[n - 1][i]) {
-                result = matrix[n - 1][i];
+        for (int col = 0; col < colLen; col++) {
+            if (result > matrix[rowLen - 1][col]) {
+                result = matrix[rowLen - 1][col];
             }
         }
 
