@@ -1,6 +1,6 @@
 class Solution {
     public int uniquePathsWithObstacles(int[][] obstacleGrid) {
-
+        
         int rowLen = obstacleGrid.length;
         int colLen = obstacleGrid[0].length;
 
@@ -26,13 +26,12 @@ class Solution {
 
         for (int row = 1; row < rowLen; row++) {
             for (int col = 1; col < colLen; col++) {
-                if (obstacleGrid[row - 1][col] != 1) {
-                    dp[row][col] += dp[row - 1][col];
+
+                if (obstacleGrid[row][col] == 1) {
+                    continue;
                 }
 
-                if (obstacleGrid[row][col - 1] != 1) {
-                    dp[row][col] += dp[row][col - 1];
-                }
+                dp[row][col] = dp[row - 1][col] + dp[row][col - 1];
             }
         }
 
