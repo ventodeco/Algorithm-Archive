@@ -3,11 +3,10 @@ class Solution {
         Map<Integer, Integer> map = new HashMap<>();
 
         for (int i = 0; i < nums.length; i++) {
-            int substract = target - nums[i];
-
-            Integer idx = map.get(substract);
-            if (idx != null) {
-                return new int[]{i, idx};
+            Integer val = target - nums[i];
+            Integer index = map.get(val);
+            if (index != null) {
+                return new int[]{index, i};
             }
 
             map.put(nums[i], i);
