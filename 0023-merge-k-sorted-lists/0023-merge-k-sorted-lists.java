@@ -12,19 +12,14 @@ class Solution {
     public ListNode mergeKLists(ListNode[] lists) {
         PriorityQueue<Integer> maxHeap = new PriorityQueue<>((a, b) -> b - a);
 
-        for (int i = 0; i < lists.length; i++) {
-            ListNode node = lists[i];
-            while (node != null) {
-                maxHeap.add(node.val);
-                node = node.next;
+        for (ListNode list : lists) {
+            while (list != null) {
+                maxHeap.add(list.val);
+                list = list.next;
             }
         }
 
-        if (maxHeap.isEmpty()) {
-            return null;
-        }
-
-        ListNode result = new ListNode(maxHeap.poll(), null);
+        ListNode result = null;
         while (!maxHeap.isEmpty()) {
             result = new ListNode(maxHeap.poll(), result);
         }
