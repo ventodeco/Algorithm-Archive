@@ -6,10 +6,12 @@ class Solution {
             maxHeap.add(nums[i]);
         }
 
+        int it = 1;
         int result = -1;
-        while (k > 0) {
+
+        while (!maxHeap.isEmpty() && it <= k) {
             result = maxHeap.poll();
-            k--;
+            it++;
         }
 
         return result;
