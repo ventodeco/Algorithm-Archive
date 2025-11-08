@@ -1,12 +1,13 @@
 class Solution {
     public int tribonacci(int n) {
         
-        if (n == 0) {
-            return 0;
-        }
 
-        if (n <= 2) {
-            return 1; 
+        // input? n data
+        // output? the formula after Tn
+        // n can be 0
+
+        if (n <= 1) {
+            return n;
         }
 
         int[] dp = new int[n + 1];
@@ -15,7 +16,7 @@ class Solution {
         dp[1] = 1;
         dp[2] = 1;
 
-        for (int i = 3; i < n + 1; i++) {
+        for (int i = 3; i <= n; i++) {
             dp[i] = dp[i - 1] + dp[i - 2] + dp[i - 3];
         }
 
